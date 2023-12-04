@@ -26,7 +26,7 @@ function itemsReducer(items, action) {
 const App = () => {
   const [items, dispatch] = useReducer(
     itemsReducer,
-    JSON.parse(localStorage.getItem("items"))
+    JSON.parse(localStorage.getItem("items")) 
   );
 
   const [newItemValue, setNewItemValue] = useState("");

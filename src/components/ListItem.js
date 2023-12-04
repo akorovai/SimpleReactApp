@@ -23,15 +23,16 @@ const TextBox = styled.div`
   p {
     font-size: 16px;
     font-weight: 400;
+    
   }
 `;
 const ButtonBox = styled.div`
   button {
     border: 0;
     outline: 0;
-    background: red;
-    border-radius: 5px;
-    padding: 3px 5px;
+    background: #f44336;
+    border-radius: 8px;
+    padding: 5px 7px;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
@@ -44,7 +45,7 @@ export default function ListItem({ item, onDelete }) {
       <ElementBox>
         <TextBox>
           <p>
-            {item.id}. {item.value}
+          ID: {item.id}, Name: {item.value}
           </p>
         </TextBox>
         <ButtonBox>

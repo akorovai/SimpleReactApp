@@ -6,7 +6,7 @@ const InputField = styled.div`
     padding: 10px 5px;
     margin: 5px 0;
     border-radius: 5px;
-    border: ${(props) => (props.error ? '2px solid red' : '1px solid #ccc')};
+    border: ${(props) => (props.error ? '2px solid #f44336' : '1px solid #ccc')};
     font-size: 16px;
   }
 `;
