@@ -16,13 +16,14 @@ function itemsReducer(items, action) {
       return [...items, action.item];
     case "deleted":
       return items.filter((item) => item.id !== action.id);
+    case "initialize":
+      return action.items;
     default:
       throw new Error("Unknown action: " + action.type);
   }
 }
 
 const App = () => {
-  
   const [items, dispatch] = useReducer(
     itemsReducer,
     JSON.parse(localStorage.getItem("items")) || initialData
@@ -34,6 +35,16 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem("items", JSON.stringify(items));
   }, [items]);
+  
+  useEffect(() => {
+    const storedItems = JSON.parse(localStorage.getItem("items"));
+
+    if (storedItems && storedItems.length > 0) {
+      dispatch({ type: "initialize", items: storedItems });
+    } else {
+      dispatch({ type: "initialize", items: initialData });
+    }
+  }, []);
 
   const isInputValid = () => newItemValue.length >= 3;
 
