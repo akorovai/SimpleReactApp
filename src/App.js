@@ -1,21 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { GlobalStyle } from "./GlobalStyles";
 import ListItem from "./components/ListItem";
 import InputContainer from "./components/InputContainer";
-
 import { Container, MainBox, ListBox } from "./App.styled";
 
+const initialData = [
+  { id: 1, value: "Saturn V" },
+  { id: 2, value: "Long March 9" },
+  { id: 3, value: "SpaceX Starship" },
+];
+
+function itemsReducer(items, action) {
+  switch (action.type) {
+    case "added":
+      return [...items, action.item];
+    case "deleted":
+      return items.filter((item) => item.id !== action.id);
+    default:
+      throw new Error("Unknown action: " + action.type);
+  }
+}
+
 const App = () => {
-  const [items, setItems] = useState(() => {
-    const storedItems = JSON.parse(localStorage.getItem("items")) || [];
-    return storedItems.length > 0
-      ? storedItems
-      : [
-          { id: 1, value: "Saturn V" },
-          { id: 2, value: "Long March 9" },
-          { id: 3, value: "SpaceX Starship" },
-        ];
-  });
+  
+  const [items, dispatch] = useReducer(
+    itemsReducer,
+    JSON.parse(localStorage.getItem("items")) || initialData
+  );
 
   const [newItemValue, setNewItemValue] = useState("");
   const [addButtonPressed, setAddButtonPressed] = useState(false);
@@ -32,7 +43,9 @@ const App = () => {
         id: items.length + 1,
         value: newItemValue,
       };
-      setItems([...items, newItem]);
+
+      dispatch({ type: "added", item: newItem });
+
       setNewItemValue("");
       setAddButtonPressed(false);
     } else {
@@ -41,7 +54,7 @@ const App = () => {
   };
 
   const handleDeleteItem = (itemId) => {
-    setItems(items.filter((item) => item.id !== itemId));
+    dispatch({ type: "deleted", id: itemId });
   };
 
   return (
