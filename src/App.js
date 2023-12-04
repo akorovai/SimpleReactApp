@@ -26,7 +26,7 @@ function itemsReducer(items, action) {
 const App = () => {
   const [items, dispatch] = useReducer(
     itemsReducer,
-    JSON.parse(localStorage.getItem("items")) || initialData
+    JSON.parse(localStorage.getItem("items"))
   );
 
   const [newItemValue, setNewItemValue] = useState("");
@@ -35,7 +35,7 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem("items", JSON.stringify(items));
   }, [items]);
-  
+
   useEffect(() => {
     const storedItems = JSON.parse(localStorage.getItem("items"));
 
